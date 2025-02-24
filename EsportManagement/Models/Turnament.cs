@@ -12,6 +12,13 @@ namespace EsportManagement.Models
         public string Judul {  get; set; }
         public DateTime Tgl_Mulai { get; set; }
         public DateTime? Tgl_Berakhir { get; set; }
-        public enum Format { Liga, Eliminasi, Grup }
+        public Format FormatTurnamen { get; set; }
+    }
+
+    public enum Format 
+    { 
+        Liga, 
+        Eliminasi, 
+        Grup 
     }
 }

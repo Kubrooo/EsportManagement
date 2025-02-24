@@ -10,7 +10,7 @@ namespace EsportManagement.Models
     {
         public int Id { get; set; }
         public string Nama {  get; set; }
-        public enum Role { Tank, Support, DPS, Sniper, Assassin}
+        public Role RolePemain { get; set; }
         public int Kill { get; set; }
         public int Assist { get; set; }
         public int Death { get; set; }
@@ -18,4 +18,14 @@ namespace EsportManagement.Models
 
         public Tim Tim { get; set; }
     }
-}
+
+        public enum Role
+        {
+            Tank,
+            Support,
+            DPS,
+            Sniper,
+            Assassin
+        }
+}   
+

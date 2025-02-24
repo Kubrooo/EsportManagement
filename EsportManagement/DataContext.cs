@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EsportManagement.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,13 @@ namespace EsportManagement
             optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;database=esportDb;Trusted_Connection = true;TrustServerCertificate = true;");
         }
 
+        public DbSet<Pemain> Pemains { get; set; }
+        public DbSet<Tim> Tims { get; set; }
+        public DbSet<Pertandingan> Pertandingans { get; set; }
+        public DbSet<Hadiah> Hadiahs { get; set; }
+        public DbSet<Sponsor> Sponsors { get; set; }
+        public DbSet<Turnament> Tournaments { get; set; }
+        public DbSet<Administrator> Administrators { get; set; }
 
     }
 }
