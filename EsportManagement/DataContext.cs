@@ -24,5 +24,15 @@ namespace EsportManagement
         public DbSet<Turnament> Tournaments { get; set; }
         public DbSet<Administrator> Administrators { get; set; }
 
+        public DbSet<ViewPlayerSummary> ViewPlayerSummaries { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Konfigurasi View sebagai entitas tanpa primary key
+            modelBuilder.Entity<ViewPlayerSummary>().HasNoKey().ToView("View_PlayerSummary");
+        }
+
     }
 }

@@ -191,6 +191,7 @@ namespace EsportManagement.Forms
             else
             {
                 disableField();
+                btnAdd.Enabled = false;
                 btnDelete.Enabled = false;
                 btnEdit.Enabled = false;
                 btnDelete.Enabled = false;
