@@ -64,12 +64,16 @@
             // 
             // dgvPlayer
             // 
+            dgvPlayer.AllowUserToAddRows = false;
+            dgvPlayer.AllowUserToDeleteRows = false;
             dgvPlayer.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPlayer.Location = new Point(41, 131);
             dgvPlayer.Name = "dgvPlayer";
+            dgvPlayer.ReadOnly = true;
             dgvPlayer.RowHeadersWidth = 51;
             dgvPlayer.Size = new Size(715, 188);
             dgvPlayer.TabIndex = 1;
+            dgvPlayer.CellClick += dgvPlayer_CellClick;
             // 
             // tbPlayerName
             // 
@@ -90,6 +94,7 @@
             // cbRole
             // 
             cbRole.FormattingEnabled = true;
+            cbRole.Items.AddRange(new object[] { "Tank", "Support", "DPS", "Sniper", "Assassin" });
             cbRole.Location = new Point(41, 418);
             cbRole.Name = "cbRole";
             cbRole.Size = new Size(151, 28);
@@ -187,6 +192,7 @@
             btnEdit.TabIndex = 15;
             btnEdit.Text = "Edit";
             btnEdit.UseVisualStyleBackColor = true;
+            btnEdit.Click += btnEdit_Click;
             // 
             // btnDelete
             // 
@@ -196,6 +202,7 @@
             btnDelete.TabIndex = 16;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnSave
             // 
@@ -205,6 +212,7 @@
             btnSave.TabIndex = 17;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // btnCancel
             // 

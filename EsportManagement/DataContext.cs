@@ -32,6 +32,54 @@ namespace EsportManagement
 
             // Konfigurasi View sebagai entitas tanpa primary key
             modelBuilder.Entity<ViewPlayerSummary>().HasNoKey().ToView("View_PlayerSummary");
+
+            modelBuilder.Entity<Pertandingan>()
+                .HasOne(p => p.Tim1)
+                .WithMany()
+                .HasForeignKey(p => p.Tim_Id1)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Pertandingan>()
+                .HasOne(p => p.Tim2)
+                .WithMany()
+                .HasForeignKey(p => p.Tim_Id2)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Pertandingan>()
+                .HasOne(p => p.Pemenang)
+                .WithMany()
+                .HasForeignKey(p => p.Pemenang_Id)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Pertandingan>()
+                .HasOne(p => p.Turnament)
+                .WithMany()
+                .HasForeignKey(p => p.Turnament_Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Hadiah>()
+                .HasOne(h => h.Sponsor)
+                .WithMany()
+                .HasForeignKey(h => h.SponsorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Hadiah>()
+                .HasOne(h => h.Turnament)
+                .WithMany()
+                .HasForeignKey(h => h.TurnamentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Hadiah>()
+                .HasOne(h => h.Tim)
+                .WithMany()
+                .HasForeignKey(h => h.TimId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Pemain>()
+                .HasOne(p => p.Tim)
+                .WithMany()
+                .HasForeignKey(p => p.Tim_Id)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

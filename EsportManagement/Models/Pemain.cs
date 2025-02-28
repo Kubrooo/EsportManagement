@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,9 @@ namespace EsportManagement.Models
         public int Kill { get; set; }
         public int Assist { get; set; }
         public int Death { get; set; }
-        public int Tim_Id {  get; set; }    
 
+        [ForeignKey("Tim")]
+        public int Tim_Id {  get; set; }    
         public Tim Tim { get; set; }
     }
 
@@ -26,6 +28,6 @@ namespace EsportManagement.Models
             DPS,
             Sniper,
             Assassin
-        }
+        } 
 }   
 
