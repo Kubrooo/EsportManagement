@@ -13,6 +13,10 @@ namespace EsportManagement.Models
         public DateTime Tgl_Mulai { get; set; }
         public DateTime? Tgl_Berakhir { get; set; }
         public Format FormatTurnamen { get; set; }
+
+        public DateTime Created_At { get; set; }
+        public DateTime Updated_At { get; set; }
+        public DateTime? Deleted_At { get; set; }
     }
 
     public enum Format 
