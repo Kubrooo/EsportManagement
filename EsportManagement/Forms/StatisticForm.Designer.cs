@@ -30,7 +30,9 @@
         {
             label1 = new Label();
             dataGridViewStatistics = new DataGridView();
+            dataGridViewTeamStats = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)dataGridViewStatistics).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewTeamStats).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -48,20 +50,31 @@
             dataGridViewStatistics.Location = new Point(58, 73);
             dataGridViewStatistics.Name = "dataGridViewStatistics";
             dataGridViewStatistics.RowHeadersWidth = 51;
-            dataGridViewStatistics.Size = new Size(665, 188);
+            dataGridViewStatistics.Size = new Size(687, 188);
             dataGridViewStatistics.TabIndex = 1;
+            // 
+            // dataGridViewTeamStats
+            // 
+            dataGridViewTeamStats.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewTeamStats.Location = new Point(58, 297);
+            dataGridViewTeamStats.Name = "dataGridViewTeamStats";
+            dataGridViewTeamStats.RowHeadersWidth = 51;
+            dataGridViewTeamStats.Size = new Size(687, 188);
+            dataGridViewTeamStats.TabIndex = 2;
             // 
             // StatisticForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 510);
+            Controls.Add(dataGridViewTeamStats);
             Controls.Add(dataGridViewStatistics);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "StatisticForm";
             Text = "StatisticForm";
             ((System.ComponentModel.ISupportInitialize)dataGridViewStatistics).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewTeamStats).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -70,5 +83,6 @@
 
         private Label label1;
         private DataGridView dataGridViewStatistics;
+        private DataGridView dataGridViewTeamStats;
     }
 }

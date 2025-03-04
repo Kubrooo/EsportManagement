@@ -19,16 +19,20 @@ namespace EsportManagement.Forms
             InitializeComponent();
             _context = new DataContext();
             LoadStatistics();
+            LoadTeamStatistics();
         }
 
         private void LoadStatistics()
         {
-            // Ambil semua turnamen
+            DateTime today = DateTime.Now.Date;
+
             var turnamenList = _context.Tournaments
                 .Select(t => new
                 {
                     t.Judul,
-                    Status = t.Tgl_Berakhir.HasValue ? "Selesai" : "Belum Selesai",
+                    Status = today < t.Tgl_Mulai ? "Belum Dimulai" :
+                             (t.Tgl_Berakhir.HasValue && today > t.Tgl_Berakhir) ? "Selesai" :
+                             "Sedang Berlangsung",
                     TotalTim = _context.Pertandingans.Count(p => p.Turnament_Id == t.Id) * 2,
                     Pemenang = _context.Pertandingans
                         .Where(p => p.Turnament_Id == t.Id && p.Pemenang_Id != null)
@@ -40,7 +44,6 @@ namespace EsportManagement.Forms
                         .Sum(h => h.Nilai)
                 }).ToList();
 
-            // Buat DataTable untuk di-bind ke DataGridView
             DataTable dt = new DataTable();
             dt.Columns.Add("Judul Turnamen");
             dt.Columns.Add("Status");
@@ -61,5 +64,44 @@ namespace EsportManagement.Forms
 
             dataGridViewStatistics.DataSource = dt;
         }
+
+
+        private void LoadTeamStatistics()
+        {
+            var teamList = _context.Tims
+                .Select(t => new
+                {
+                    t.Nama,
+                    TotalTurnamen = _context.Pertandingans
+                        .Count(p => p.Tim_Id1 == t.Id || p.Tim_Id2 == t.Id),
+                    Menang = _context.Pertandingans.Count(p => p.Pemenang_Id == t.Id),
+                    Kalah = _context.Pertandingans
+                        .Count(p => (p.Tim_Id1 == t.Id || p.Tim_Id2 == t.Id) && p.Pemenang_Id != t.Id),
+                    t.Total_Poin
+                })
+                .OrderByDescending(t => t.Total_Poin)
+                .ToList();
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Nama Tim");
+            dt.Columns.Add("Turnamen Diikuti");
+            dt.Columns.Add("Menang");
+            dt.Columns.Add("Kalah");
+            dt.Columns.Add("Total Poin");
+
+            foreach (var team in teamList)
+            {
+                dt.Rows.Add(
+                    team.Nama,
+                    team.TotalTurnamen,
+                    team.Menang,
+                    team.Kalah,
+                    team.Total_Poin
+                );
+            }
+
+            dataGridViewTeamStats.DataSource = dt;
+        }
     }
 }
+

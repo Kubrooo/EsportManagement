@@ -140,12 +140,29 @@ namespace EsportManagement.Forms
         {
             using (var _context = new DataContext())
             {
+                int tournamentId = (int)cbTournament.SelectedValue;
+                var tournament = _context.Tournaments.FirstOrDefault(t => t.Id == tournamentId);
+
+                if (tournament == null)
+                {
+                    MessageBox.Show("Turnamen tidak ditemukan.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Validasi: Cek apakah pertandingan dimulai sebelum turnamen
+                DateTime today = DateTime.Now.Date;
+                if (today < tournament.Tgl_Mulai)
+                {
+                    MessageBox.Show("Pertandingan tidak bisa ditambahkan sebelum turnamen dimulai.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 var match = new Pertandingan
                 {
                     Tim_Id1 = (int)cbFirstTeam.SelectedValue,
                     Tim_Id2 = (int)cbSecondTeam.SelectedValue,
                     Pemenang_Id = (int)cbWinnerTeam.SelectedValue,
-                    Turnament_Id = (int)cbTournament.SelectedValue,
+                    Turnament_Id = tournamentId,
                     Skor_Tim1 = (int)numFirstTeamScore.Value,
                     Skor_Tim2 = (int)numSecondTeamScore.Value
                 };
@@ -154,6 +171,7 @@ namespace EsportManagement.Forms
 
                 var firstTeam = _context.Tims.FirstOrDefault(t => t.Id == match.Tim_Id1);
                 var secondTeam = _context.Tims.FirstOrDefault(t => t.Id == match.Tim_Id2);
+                var winnerTeam = _context.Tims.FirstOrDefault(t => t.Id == match.Pemenang_Id);
 
                 if (firstTeam != null)
                 {
@@ -165,11 +183,24 @@ namespace EsportManagement.Forms
                     secondTeam.Total_Poin = (int.Parse(secondTeam.Total_Poin) + match.Skor_Tim2).ToString();
                 }
 
+                if (winnerTeam != null)
+                {
+                    if (winnerTeam.Id == match.Tim_Id1)
+                    {
+                        winnerTeam.Total_Poin = (int.Parse(winnerTeam.Total_Poin) + (match.Skor_Tim1 * 3)).ToString();
+                    }
+                    else if (winnerTeam.Id == match.Tim_Id2)
+                    {
+                        winnerTeam.Total_Poin = (int.Parse(winnerTeam.Total_Poin) + (match.Skor_Tim2 * 3)).ToString();
+                    }
+                }
+
                 await _context.SaveChangesAsync();
                 loadViewData();
                 disableField();
             }
         }
+
 
 
         private void btnEdit_Click(object sender, EventArgs e)
