@@ -138,6 +138,10 @@ namespace EsportManagement.Forms
                     await _context.SaveChangesAsync();
                     loadViewData();
                     MessageBox.Show("Pemain berhasil ditambahkan!");
+                    disableField();
+                    btnAdd.Enabled = true;
+                    btnDelete.Enabled = true;
+                    btnEdit.Enabled = true;
                 }
                 else
                 {

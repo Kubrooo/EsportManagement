@@ -25,6 +25,9 @@ namespace EsportManagement
         public DbSet<Administrator> Administrators { get; set; }
 
         public DbSet<ViewPlayerSummary> ViewPlayerSummaries { get; set; }
+        public DbSet<ViewMatchDetails> ViewMatchDetails { get; set; }
+        public DbSet<ViewSponsorTournament> ViewSponsorTournaments { get; set; }
+        public DbSet<ViewHadiahDetail> ViewHadiahDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +35,9 @@ namespace EsportManagement
 
             // Konfigurasi View sebagai entitas tanpa primary key
             modelBuilder.Entity<ViewPlayerSummary>().HasNoKey().ToView("View_PlayerSummary");
+            modelBuilder.Entity<ViewMatchDetails>().HasNoKey().ToView("MatchDetails");
+            modelBuilder.Entity<ViewSponsorTournament>().HasNoKey().ToView("View_Sponsor_Tournament");
+            modelBuilder.Entity<ViewHadiahDetail>().HasNoKey().ToView("View_Hadiah_Detail");
 
             modelBuilder.Entity<Pertandingan>()
                 .HasOne(p => p.Tim1)
@@ -80,6 +86,12 @@ namespace EsportManagement
                 .WithMany()
                 .HasForeignKey(p => p.Tim_Id)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Sponsor>()
+                .HasOne(s => s.Turnament)
+                .WithMany()
+                .HasForeignKey(s => s.TournamentId)
+                .OnDelete(DeleteBehavior.Restrict); 
         }
 
     }

@@ -20,8 +20,8 @@ namespace EsportManagement.Models
         public Tim Tim2 { get; set; }
 
         [ForeignKey("Pemenang")]
-        public int Pemenang_Id { get; set; }
-        public Tim Pemenang { get; set; }
+        public int? Pemenang_Id { get; set; }
+        public Tim? Pemenang { get; set; }
 
         [ForeignKey("Turnament")]
         public int Turnament_Id { get; set; }
