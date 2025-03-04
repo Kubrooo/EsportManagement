@@ -41,6 +41,8 @@
             btnDelete = new Button();
             btnCancel = new Button();
             btnSave = new Button();
+            tbSearch = new TextBox();
+            cbSortOptions = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvTeam).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numTotalPoint).BeginInit();
             SuspendLayout();
@@ -165,11 +167,31 @@
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
             // 
+            // tbSearch
+            // 
+            tbSearch.Location = new Point(25, 75);
+            tbSearch.Name = "tbSearch";
+            tbSearch.Size = new Size(219, 27);
+            tbSearch.TabIndex = 14;
+            tbSearch.TextChanged += tbSearch_TextChanged;
+            // 
+            // cbSortOptions
+            // 
+            cbSortOptions.FormattingEnabled = true;
+            cbSortOptions.Items.AddRange(new object[] { "Total Turnamen", "Total Menang", "Total Hadiah Item" });
+            cbSortOptions.Location = new Point(253, 74);
+            cbSortOptions.Name = "cbSortOptions";
+            cbSortOptions.Size = new Size(151, 28);
+            cbSortOptions.TabIndex = 15;
+            cbSortOptions.SelectedIndexChanged += cbSortOptions_SelectedIndexChanged;
+            // 
             // ManageTeamForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(905, 519);
+            Controls.Add(cbSortOptions);
+            Controls.Add(tbSearch);
             Controls.Add(btnSave);
             Controls.Add(btnCancel);
             Controls.Add(btnDelete);
@@ -208,5 +230,7 @@
         private Button btnDelete;
         private Button btnCancel;
         private Button btnSave;
+        private TextBox tbSearch;
+        private ComboBox cbSortOptions;
     }
 }

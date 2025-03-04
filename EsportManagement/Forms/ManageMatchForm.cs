@@ -188,15 +188,22 @@ namespace EsportManagement.Forms
 
         private async void actionEdit()
         {
-            using(var _context = new DataContext())
+            using (var _context = new DataContext())
             {
                 var match = _context.Pertandingans.FirstOrDefault(m => m.Id == selectedMatchId);
+
+                if (match.Pemenang_Id != null && match.Pemenang_Id > 0)
+                {
+                    MessageBox.Show("Pemenang sudah ditetapkan! Anda hanya bisa mengedit tim dan skor.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 match.Tim_Id1 = (int)cbFirstTeam.SelectedValue;
                 match.Tim_Id2 = (int)cbSecondTeam.SelectedValue;
-                match.Pemenang_Id = (int)cbWinnerTeam.SelectedValue;
                 match.Turnament_Id = (int)cbTournament.SelectedValue;
                 match.Skor_Tim1 = (int)numFirstTeamScore.Value;
                 match.Skor_Tim2 = (int)numSecondTeamScore.Value;
+
                 await _context.SaveChangesAsync();
                 loadViewData();
                 disableField();
@@ -223,15 +230,24 @@ namespace EsportManagement.Forms
 
         private async void actionDelete()
         {
-            using(var _context = new DataContext())
+            using (var _context = new DataContext())
             {
                 var match = _context.Pertandingans.FirstOrDefault(m => m.Id == selectedMatchId);
+
+                // Cek apakah sudah ada pemenang
+                if (match.Pemenang_Id != null && match.Pemenang_Id > 0)
+                {
+                    MessageBox.Show("Pertandingan sudah memiliki pemenang dan tidak dapat dihapus!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 _context.Pertandingans.Remove(match);
                 await _context.SaveChangesAsync();
                 loadViewData();
                 disableField();
             }
         }
+
 
         private void btnSave_Click(object sender, EventArgs e)
         {

@@ -92,6 +92,15 @@ namespace EsportManagement.Forms
             btnCancel.Enabled = true;
         }
 
+        private void clearField()
+        {
+            numNilaiHadiah.Value = 0;
+            cbJenisHadiah.Text = "";
+            cbNamaTeamPenerima.Text = "";
+            cbNamaTournament.Text = "";
+            cbSponsorName.Text = "";
+        }
+
         private void dgvRewards_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
@@ -212,7 +221,8 @@ namespace EsportManagement.Forms
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-
+            disableField();
+            clearField();
         }
     }
 }

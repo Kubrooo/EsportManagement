@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             label1 = new Label();
+            dataGridViewStatistics = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewStatistics).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -40,15 +42,26 @@
             label1.TabIndex = 0;
             label1.Text = "Statistic";
             // 
+            // dataGridViewStatistics
+            // 
+            dataGridViewStatistics.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewStatistics.Location = new Point(58, 73);
+            dataGridViewStatistics.Name = "dataGridViewStatistics";
+            dataGridViewStatistics.RowHeadersWidth = 51;
+            dataGridViewStatistics.Size = new Size(665, 188);
+            dataGridViewStatistics.TabIndex = 1;
+            // 
             // StatisticForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(dataGridViewStatistics);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "StatisticForm";
             Text = "StatisticForm";
+            ((System.ComponentModel.ISupportInitialize)dataGridViewStatistics).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -56,5 +69,6 @@
         #endregion
 
         private Label label1;
+        private DataGridView dataGridViewStatistics;
     }
 }

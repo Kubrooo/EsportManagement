@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,15 +30,51 @@ namespace EsportManagement.Forms
             disableField();
         }
 
-        private async void loadViewData()
+        private async void loadViewData(string searchKeyword = "", string sortBy = "")
         {
             using (var _context = new DataContext())
             {
-                var teams = await _context.Tims.ToListAsync();
+                var query = _context.Tims
+                    .Select(t => new
+                    {
+                        t.Id,
+                        t.Nama,
+                        t.Negara,
+                        t.Total_Poin,
+                        TotalTurnamen = _context.Pertandingans.Count(p => p.Tim_Id1 == t.Id || p.Tim_Id2 == t.Id),
+                        TotalMenang = _context.Pertandingans.Count(p => p.Pemenang_Id == t.Id),
+                        TotalHadiahItem = _context.Hadiahs.Count(h => h.TimId == t.Id)
+                    });
+
+                // Filter berdasarkan nama tim
+                if (!string.IsNullOrWhiteSpace(searchKeyword))
+                {
+                    query = query.Where(t => t.Nama.Contains(searchKeyword));
+                }
+
+                // Sorting berdasarkan pilihan user
+                switch (sortBy)
+                {
+                    case "TotalTurnamen":
+                        query = query.OrderByDescending(t => t.TotalTurnamen);
+                        break;
+                    case "TotalMenang":
+                        query = query.OrderByDescending(t => t.TotalMenang);
+                        break;
+                    case "TotalHadiahItem":
+                        query = query.OrderByDescending(t => t.TotalHadiahItem);
+                        break;
+                    default:
+                        query = query.OrderBy(t => t.Nama);
+                        break;
+                }
+
+                var teams = await query.ToListAsync();
                 bindingSource.DataSource = teams;
                 dgvTeam.DataSource = bindingSource;
             }
         }
+
 
         private void disableField()
         {
@@ -185,7 +222,7 @@ namespace EsportManagement.Forms
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if(dgClick == null)
+            if (dgClick == null)
             {
                 MessageBox.Show("Please select the data first");
             }
@@ -226,10 +263,53 @@ namespace EsportManagement.Forms
                     {
                         return;
                     }
-                } else
+                }
+                else
                 {
                     MessageBox.Show("Please select the data first");
                 }
+            }
+        }
+
+        private async void showByNama()
+        {
+            string searchKeyword = tbSearch.Text;
+            loadViewData(searchKeyword);
+        }
+
+        private async void showByTotalTurnamen()
+        {
+            loadViewData("", "TotalTurnamen");
+        }
+
+        private async void showByTotalMenang()
+        {
+            loadViewData("", "TotalMenang");
+        }
+
+        private async void showByTotalHadiahItem()
+        {
+            loadViewData("", "TotalHadiahItem");
+        }
+
+        private void tbSearch_TextChanged(object sender, EventArgs e)
+        {
+            showByNama();
+        }
+
+        private void cbSortOptions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (cbSortOptions.SelectedItem.ToString())
+            {
+                case "Total Turnamen":
+                    showByTotalTurnamen();
+                    break;
+                case "Total Menang":
+                    showByTotalMenang();
+                    break;
+                case "Total Hadiah Item":
+                    showByTotalHadiahItem();
+                    break;
             }
         }
     }
